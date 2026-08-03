@@ -16,7 +16,7 @@ If your product also contains AI, read the companion **[EU AI Act Compliance
 Guide](https://github.com/SMIIT-CyberAI-UK/eu-ai-act-compliance-guide)** — the two overlap, and
 [`docs/connects-to-ai-act.md`](docs/connects-to-ai-act.md) maps where.
 
-> Maintained under the [SMIIT CyberAI](https://pallavikumar.netlify.app) banner.
+> Maintained under the [SMIIT CyberAI](www.smiitcyberai.com) banner.
 > **Not legal advice.** The Official Journal text is the only authoritative source.
 
 ---
