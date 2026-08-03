@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber Resilience Act — Compliance Navigator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08161A;--panel:#0F2329;--surface:#153138;--surface-2:#1C4048;
+    --line:#255059;--line-soft:#1C4048;--text:#E6F1F0;--muted:#88ADAD;--faint:#5C8484;
+    --cra:#34C4A8;--signal:#F5A623;--alert:#E5565B;--live:#6FBF73;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --body:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{background:radial-gradient(1100px 600px at 80% -10%,rgba(52,196,168,.12),transparent 60%),var(--ink);color:var(--text);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 20px 80px}
+  a{color:var(--cra)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  header.hero{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,var(--panel),var(--ink))}
+  .hero-top{padding:26px 26px 8px}
+  .hero h1{font-family:var(--display);font-weight:700;letter-spacing:-.02em;font-size:clamp(24px,4.3vw,38px);margin:.35em 0 .15em}
+  .hero p.lede{color:var(--muted);max-width:60ch;margin:.2em 0 0}
+  .clockrow{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;padding:18px 26px 24px;border-top:1px solid var(--line-soft);margin-top:16px;background:var(--surface)}
+  .countdown{display:flex;gap:14px;align-items:flex-end}
+  .cd-unit{display:flex;flex-direction:column;align-items:center;min-width:58px}
+  .cd-num{font-family:var(--mono);font-weight:600;font-size:clamp(30px,6vw,46px);color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
+  .cd-lab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  .cd-meta{flex:1 1 220px;min-width:200px}
+  .cd-meta .to{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.1em;text-transform:uppercase}
+  .cd-meta .what{font-family:var(--display);font-weight:600;font-size:18px;margin:4px 0 2px}
+  .cd-meta .date{color:var(--muted);font-family:var(--mono);font-size:13px}
+  .pulse{width:9px;height:9px;border-radius:50%;background:var(--signal);display:inline-block;margin-right:7px;animation:p 2.4s infinite}
+  @keyframes p{0%{box-shadow:0 0 0 0 rgba(245,166,35,.55)}70%{box-shadow:0 0 0 10px rgba(245,166,35,0)}100%{box-shadow:0 0 0 0 rgba(245,166,35,0)}}
+  .runway{padding:20px 26px 26px;border-top:1px solid var(--line-soft)}
+  .track{position:relative;height:3px;background:var(--line);border-radius:3px;margin:34px 0 8px}
+  .track .fill{position:absolute;left:0;top:0;height:100%;background:var(--cra);border-radius:3px}
+  .today{position:absolute;top:-7px;width:2px;height:17px;background:var(--signal)}
+  .today::after{content:"TODAY";position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--signal)}
+  .mk{position:absolute;top:-5px;width:11px;height:11px;border-radius:50%;transform:translateX(-50%);border:2px solid var(--ink);background:var(--cra)}
+  .mk.past{opacity:.42}
+  .mk .tip{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--muted);opacity:0;transition:opacity .15s;pointer-events:none}
+  .mk:hover .tip,.mk:focus .tip{opacity:1}
+  .legend{display:flex;gap:18px;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:20px;flex-wrap:wrap}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+  section.panel{margin-top:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden}
+  .phead{padding:18px 22px;border-bottom:1px solid var(--line-soft);display:flex;align-items:baseline;gap:12px}
+  .phead h2{font-family:var(--display);font-weight:600;font-size:19px;margin:0}
+  .phead .num{font-family:var(--mono);color:var(--muted);font-size:13px}
+  .pbody{padding:20px 22px}
+  .rows{display:flex;flex-direction:column;gap:8px}
+  .row{display:grid;grid-template-columns:96px 1fr auto;gap:14px;align-items:center;padding:13px 15px;border:1px solid var(--line-soft);border-radius:10px;background:var(--surface)}
+  .row .d{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .row .t{font-size:14px}.row .t b{font-family:var(--display)}
+  .row .cd{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cd.future{color:var(--signal)}.cd.soon{color:var(--alert)}.cd.done{color:var(--live)}
+  .stepq{font-family:var(--display);font-weight:500;font-size:17px;margin:2px 0 14px}
+  .opts{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{font:inherit;font-family:var(--mono);font-size:13px;padding:10px 18px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer}
+  .btn:hover{border-color:var(--cra)}.btn.ghost{color:var(--muted);border-style:dashed}
+  .progress{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+  .result{border-radius:10px;padding:18px;border:1px solid var(--line)}
+  .result.out{background:rgba(111,191,115,.10);border-color:var(--live)}
+  .result.in{background:rgba(52,196,168,.10);border-color:var(--cra)}
+  .result.important{background:rgba(245,166,35,.10);border-color:var(--signal)}
+  .result.critical{background:rgba(229,86,91,.10);border-color:var(--alert)}
+  .result h3{font-family:var(--display);margin:0 0 6px;font-size:20px}
+  .result .dl{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:6px}
+  label.fld{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  input[type=datetime-local],.sel{font:inherit;font-family:var(--mono);font-size:14px;padding:11px 13px;border-radius:9px;background:var(--surface);color:var(--text);border:1px solid var(--line);width:100%;max-width:560px;color-scheme:dark}
+  .clocks{margin-top:18px;display:grid;gap:10px}
+  .clockcard{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:13px 15px;border:1px solid var(--line-soft);border-radius:10px;background:var(--surface)}
+  .clockcard .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cra)}
+  .clockcard .when{font-family:var(--mono);font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;text-align:right}
+  .clockcard .lbl{font-size:14px}
+  .fine{margin-top:16px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .fine .big{font-family:var(--mono);font-weight:600;font-size:30px;color:var(--alert)}
+  .fine .sub{color:var(--muted);font-size:14px}
+  footer{margin-top:34px;color:var(--muted);font-size:12.5px;text-align:center;line-height:1.7}
+  .disclaim{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:8px}
+  @media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+  @media (max-width:560px){.row,.clockcard{grid-template-columns:1fr;gap:6px}.row .cd,.clockcard .when{text-align:left}.cd-meta{order:-1}}
+  :focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <span class="eyebrow">SMIIT CyberAI · CRA Navigator</span>
+      <h1>Cyber Resilience Act — Compliance Navigator</h1>
+      <p class="lede">Check scope, calculate your 24h/72h reporting deadlines from an incident time, and size your exposure. Current as of August 2026.</p>
+    </div>
+    <div class="clockrow">
+      <div class="cd-meta">
+        <div class="to"><span class="pulse"></span>Next binding deadline</div>
+        <div class="what" id="next-what">—</div>
+        <div class="date" id="next-date">—</div>
+      </div>
+      <div class="countdown" id="next-cd" aria-live="polite"></div>
+    </div>
+    <div class="runway">
+      <span class="eyebrow">Regulatory runway 2024 → 2028</span>
+      <div class="track" id="track"><div class="fill" id="fill"></div><div class="today" id="today"></div></div>
+      <div class="legend"><span><span class="dot" style="background:var(--cra)"></span>CRA milestone</span><span><span class="dot" style="background:var(--signal)"></span>Today</span><span style="color:var(--faint)">hover a marker for detail</span></div>
+    </div>
+  </header>
+
+  <section class="panel"><div class="phead"><span class="num">01</span><h2>Deadline board</h2></div>
+    <div class="pbody"><div class="rows" id="board"></div></div>
+  </section>
+
+  <section class="panel"><div class="phead"><span class="num">02</span><h2>Reporting-clock calculator</h2></div>
+    <div class="pbody">
+      <label class="fld" for="inc">When did you become aware of the incident / exploited vulnerability?</label>
+      <input type="datetime-local" id="inc">
+      <div class="opts" style="margin-top:12px">
+        <button class="btn" data-k="vuln">Actively exploited vulnerability</button>
+        <button class="btn ghost" data-k="incident">Severe incident</button>
+      </div>
+      <div class="clocks" id="clocks"></div>
+    </div>
+  </section>
+
+  <section class="panel"><div class="phead"><span class="num">03</span><h2>Scope &amp; class check</h2></div>
+    <div class="pbody"><div class="progress" id="sc-prog">Question 1</div><div id="sc-body"></div></div>
+  </section>
+
+  <section class="panel"><div class="phead"><span class="num">04</span><h2>Penalty reckoner</h2></div>
+    <div class="pbody"><select class="sel" id="pen-sel" aria-label="Breach type"></select><div class="fine" id="pen-out"></div>
+      <p style="color:var(--muted);font-size:13px;margin-top:12px">Higher of the fixed amount or % of worldwide annual turnover.</p>
+    </div>
+  </section>
+
+  <footer>The 24-hour clock is the hardest constraint in the CRA — architect for it. Verify against Regulation (EU) 2024/2847 and ENISA guidance.
+    <div class="disclaim">Not legal advice · Cyber Resilience Act (EU) 2024/2847 · reviewed Aug 2026</div>
+  </footer>
+</div>
+<script>
+const MS_DAY=86400000,now=new Date();
+const milestones=[
+ {date:'2024-12-10',title:'Entered into force'},
+ {date:'2026-06-11',title:'Conformity-body notification rules'},
+ {date:'2026-09-11',title:'Art 14 vulnerability & incident reporting'},
+ {date:'2027-12-11',title:'Full application — essential requirements, CE marking'},
+].map(m=>({...m,d:new Date(m.date+'T00:00:00Z')})).sort((a,b)=>a.d-b.d);
+const fmt=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const fmtDT=d=>d.toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const daysTo=d=>Math.ceil((d-now)/MS_DAY);
+const nextM=milestones.find(m=>m.d>now);
+function renderNext(){
+ if(!nextM){document.getElementById('next-what').textContent='All tracked milestones in force';return;}
+ document.getElementById('next-what').textContent=nextM.title;
+ document.getElementById('next-date').textContent=fmt(nextM.d);
+ const diff=nextM.d-now,days=Math.floor(diff/MS_DAY),hrs=Math.floor((diff%MS_DAY)/3600000),mins=Math.floor((diff%3600000)/60000);
+ const el=document.getElementById('next-cd');el.innerHTML='';
+ [['days',days],['hrs',hrs],['min',mins]].forEach(([lab,val])=>{const u=document.createElement('div');u.className='cd-unit';u.innerHTML=`<span class="cd-num">${String(val).padStart(2,'0')}</span><span class="cd-lab">${lab}</span>`;el.appendChild(u);});
+}
+renderNext();setInterval(()=>{now.setTime(Date.now());renderNext();},60000);
+(function(){const s=new Date('2024-09-01').getTime(),e=new Date('2028-06-30').getTime(),span=e-s,pct=t=>Math.max(0,Math.min(100,((t-s)/span)*100));
+ const tr=document.getElementById('track');document.getElementById('fill').style.width=pct(Date.now())+'%';document.getElementById('today').style.left=pct(Date.now())+'%';
+ milestones.forEach(m=>{const mk=document.createElement('div');mk.className='mk'+(m.d<now?' past':'');mk.style.left=pct(m.d.getTime())+'%';mk.tabIndex=0;mk.innerHTML=`<span class="tip">${fmt(m.d)} · ${m.title}</span>`;tr.appendChild(mk);});
+})();
+const board=document.getElementById('board');
+milestones.forEach(m=>{const dt=daysTo(m.d);let cls='done',txt='in force';if(dt>0){cls=dt<=120?'soon':'future';txt=dt+' days';}const r=document.createElement('div');r.className='row';r.innerHTML=`<span class="d">${fmt(m.d)}</span><span class="t"><b>${m.title}</b></span><span class="cd ${cls}">${txt}</span>`;board.appendChild(r);});
+
+/* reporting-clock calculator */
+const inc=document.getElementById('inc');
+const pad=n=>String(n).padStart(2,'0');
+const nn=new Date();inc.value=`${nn.getFullYear()}-${pad(nn.getMonth()+1)}-${pad(nn.getDate())}T${pad(nn.getHours())}:${pad(nn.getMinutes())}`;
+let kind='vuln';
+document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>{
+ kind=b.dataset.k;
+ document.querySelectorAll('[data-k]').forEach(x=>{x.classList.add('ghost');});
+ b.classList.remove('ghost');
+ renderClocks();
+}));
+function renderClocks(){
+ const box=document.getElementById('clocks');
+ const t=inc.value?new Date(inc.value):null;
+ if(!t||isNaN(t)){box.innerHTML='<div style="color:var(--muted);font-size:14px">Enter a valid awareness time.</div>';return;}
+ const ew=new Date(t.getTime()+24*3600000);
+ const fn=new Date(t.getTime()+72*3600000);
+ const finalLbl=kind==='vuln'?'Final report — within 14 days of a corrective measure':'Final report — within 1 month';
+ const rows=[
+  ['Early warning','24 h from awareness',ew],
+  ['Full notification','72 h from awareness',fn],
+  ['Final report',finalLbl,null],
+ ];
+ box.innerHTML=rows.map(([tag,lbl,when])=>{
+  let whenTxt=when?fmtDT(when):'—';
+  let flag='';
+  if(when){const left=when-Date.now();flag=left<0?' style="color:var(--alert)"':(left<6*3600000?' style="color:var(--signal)"':'');}
+  return `<div class="clockcard"><span class="tag">${tag}</span><span class="lbl">${lbl}</span><span class="when"${flag}>${whenTxt}</span></div>`;
+ }).join('');
+}
+inc.addEventListener('input',renderClocks);renderClocks();
+
+/* scope & class check */
+const scBody=document.getElementById('sc-body'),scProg=document.getElementById('sc-prog');
+const scSteps=[
+ {q:'Is your product hardware or software that connects — directly or indirectly — to a device or network, and is placed on the EU market?',yes:1,no:{type:'out',t:'Likely out of CRA product scope',d:'No network connection or not placed on the EU market. Check NIS2 / DORA if you run a service.'}},
+ {q:'Is it a medical device, motor vehicle, or aviation/marine product (governed by sector law)?',yes:{type:'out',t:'Carved out of the CRA',d:'Sector law (MDR/IVDR, type-approval) governs — but connected accessories/apps around it may still be CRA products.'},no:2},
+ {q:'Is it an "important" product (Annex III) — e.g. password manager, VPN, network management, firewall, OS, microcontroller, router?',yes:3,no:{type:'in',t:'In scope — default class',d:'Self-assessment permitted against the Annex I essential requirements. Reporting from 11 Sep 2026; full compliance 11 Dec 2027.'}},
+ {q:'Is it a "critical" product (Annex IV) — e.g. hardware security module, smartcard secure element?',yes:{type:'critical',t:'In scope — critical (Annex IV)',d:'May require EU cybersecurity certification. Highest assurance route.'},no:{type:'important',t:'In scope — important (Annex III)',d:'Class I: self-assessment if harmonised standards applied, else third-party. Class II: harmonised standards or third-party assessment.'}},
+];
+let sc=0;
+function renderSc(){const s=scSteps[sc];scProg.textContent='Question '+(sc+1);
+ scBody.innerHTML=`<div class="stepq">${s.q}</div><div class="opts"><button class="btn" data-a="yes">Yes</button><button class="btn" data-a="no">No</button>${sc>0?'<button class="btn ghost" data-a="back">← Back</button>':''}</div>`;
+ scBody.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.a;if(a==='back'){sc=Math.max(0,sc-1);renderSc();return;}const br=a==='yes'?s.yes:s.no;if(typeof br==='number'){sc=br;renderSc();}else scResult(br);}));}
+function scResult(r){scProg.textContent='Result';
+ scBody.innerHTML=`<div class="result ${r.type}"><h3>${r.t}</h3><div>${r.d}</div><div style="margin-top:14px"><button class="btn ghost" id="scr">Start over</button></div></div>`;
+ document.getElementById('scr').addEventListener('click',()=>{sc=0;renderSc();});}
+renderSc();
+
+/* penalties */
+const penalties=[['Essential requirements / core manufacturer duties','€15 M','2.5%'],['Other obligations (auth rep, docs, CE marking)','€10 M','2%'],['Incorrect information to authorities','€5 M','1%']];
+const ps=document.getElementById('pen-sel');penalties.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p[0];ps.appendChild(o);});
+function rp(){const p=penalties[ps.value];document.getElementById('pen-out').innerHTML=`<span class="big">${p[1]}</span><span class="sub">or <b style="color:var(--text)">${p[2]}</b> of worldwide annual turnover — whichever is higher</span>`;}
+ps.addEventListener('change',rp);rp();
+</script>
+</body>
+</html>
