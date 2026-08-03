@@ -1,8 +1,13 @@
+
 <div align="center">
+<img width="900" alt="Cyber Resilience Act Compliance Guide" src="https://github.com/user-attachments/assets/6e225262-81fc-4db5-b936-57917343ca0b" />
+</div>
 
 # Cyber Resilience Act — Step-by-Step Compliance Guide
 
 **The current, practitioner-facing reference for the EU Cyber Resilience Act.**
+
+
 
 Built around the 11 September 2026 reporting deadline · dated · maintained · free
 
