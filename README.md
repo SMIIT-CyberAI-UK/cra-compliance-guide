@@ -12,7 +12,7 @@ EU's product-cybersecurity law for **products with digital elements (PDE)**. Bui
 2026**, and this guide is organised around getting you there.
 
 If your product also contains AI, read the companion **[EU AI Act Compliance
-Guide](https://github.com/YOUR-ORG/eu-ai-act-compliance-guide)** — the two overlap, and
+Guide](https://github.com/SMIIT-CyberAI-UK/eu-ai-act-compliance-guide)** — the two overlap, and
 [`docs/connects-to-ai-act.md`](docs/connects-to-ai-act.md) maps where.
 
 > Maintained under the [SMIIT CyberAI](https://pallavikumar.netlify.app) banner.
