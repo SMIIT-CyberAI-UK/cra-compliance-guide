@@ -1,4 +1,5 @@
 # Cyber Resilience Act — Step-by-Step Compliance Guide
+Current, cross-regime practitioner reference for the EU AI Act — post-Digital-Omnibus, with an interactive 
 
 > **The current, practitioner-facing reference for the CRA** — built around the 11 Sep 2026 reporting deadline, dated, and free.
 
